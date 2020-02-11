@@ -53,18 +53,18 @@ def return_client_hdfs(user):
     client_hdfs = InsecureClient(url, user=user)
     return client_hdfs
 
-def get_client_ibis_impala(user,
-                           user_password,
-                           list_datanodes,
-                           port_impala = 21050,
-                           port_hdfs = 50070,
-                           impala_ssl = 0):
+def get_client_ibis(user,
+                   user_password,
+                   list_datanodes,
+                   port,
+                   port_hdfs = 50070,
+                   ssl = 0):
     """
-
+    Return an ibis client for Ibis or Impala
     :param user: string of the username to connect to Impala
     :param user_password:  string password to connect to Impala
     :param list_datanodes: List containing the list of dataNode
-    :param port_impala: port Impala to use (default 21050)
+    :param port: port Impala to use (default 21050 for Impala and 10000 for Hive)
     :param port_hdfs: port HDFS to use (default 50070)
     :param impala_ssl: set to 1 if you want to activate SSL on impala
     :return: ibis client with an active random datanode
@@ -85,12 +85,12 @@ def get_client_ibis_impala(user,
         data_node = data_node_list[random.randint(0, len(data_node_list) - 1)]
         try:
             # Test if the DataNode is active
-            ibis_client = ibis.impala.connect(host=data_node, port=int(port_impala),
+            ibis_client = ibis.impala.connect(host=data_node, port=int(port),
                                               hdfs_client=ibis_hdfs,
                                               user=user,
                                               password=user_password,
                                               auth_mechanism='PLAIN',
-                                              use_ssl=bool(impala_ssl == "1"),
+                                              use_ssl=bool(ssl == "1"),
                                               timeout=0.5)
             ibis_client.list_databases()
             return ibis_client
