@@ -4,7 +4,7 @@ setup(
     name='pySaagie-connect',
     version='0.1',
     description='Python package to connect to several datalake services (Impala, Hive, HDFS etc..)',
-    url='git@gitlab.saagie.tech:42/service/api-saagie.git',
+    url='git@github.com:AugustinPeyridieux/pySaagie-connect.git',
     author='Saagie Service team',
     license='GLWTPL',
     packages=['pySaagie-connect'],
