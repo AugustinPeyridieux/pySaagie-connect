@@ -1,10 +1,6 @@
 # pySaagie-connect
 
-Project Goal : initialize and simlify connection to different element of a 
-datalake or around it, to get data
-
-Functions still have to be tested (specially for sharepoint class)
-
+Project Goal : initialize and simlify connection to different elements of a datalake
 
 For now :
 
