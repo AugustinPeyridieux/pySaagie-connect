@@ -7,7 +7,3 @@ For now :
 - HDFS
 - HIVE
 - IMPALA
-- MySQL
-- PostGreSQL
-- Elasticsearch
-- Sharepoint
