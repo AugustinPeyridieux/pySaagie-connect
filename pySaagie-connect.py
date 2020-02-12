@@ -1,9 +1,5 @@
 from hdfs import InsecureClient
 import ibis
-import urllib.parse
-import pandas as pd
-import json
-from pandas.io.json import json_normalize
 
 
 def get_url_active_namenode(list_name_nodes):
