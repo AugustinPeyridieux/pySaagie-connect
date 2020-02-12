@@ -57,7 +57,7 @@ def get_client_ibis(user,
                    port_hdfs = 50070,
                    ssl = 0):
     """
-    Return an ibis client for Ibis or Impala
+    Return an ibis client for Hive or Impala
     :param user: string of the username to connect to Impala
     :param user_password:  string password to connect to Impala
     :param list_datanodes: List containing the list of dataNode
