@@ -1,8 +1,5 @@
 from hdfs import InsecureClient
 import ibis
-import requests
-from sqlalchemy import create_engine
-from elasticsearch import Elasticsearch
 import urllib.parse
 import pandas as pd
 import json
