@@ -1,6 +1,6 @@
 # pySaagie-connect
 
-Project Goal : initialize and simlify connection to different elements of a datalake
+Project Goal : initialize and simplify connection to different elements of a datalake
 
 For now :
 

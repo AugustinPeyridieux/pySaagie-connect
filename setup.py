@@ -9,11 +9,6 @@ setup(
     license='GLWTPL',
     packages=['pySaagie-connect'],
     install_requires=[
-          'pandas',
-          'json',
-          'urllib',
-          'elasticsearch',
-          'sqlalchemy',
           'ibis',
           'hdfs',
       ],
