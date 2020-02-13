@@ -3,7 +3,7 @@ import ibis
 import random
 
 
-def get_url_active_namenode(list_name_nodes):
+def get_url_active_namenode(list_name_nodes, port_hdfs):
     """
     Return the URL of the active NameNode
     Context:
@@ -21,11 +21,11 @@ def get_url_active_namenode(list_name_nodes):
     # Loop to identify which one of the 2 NameNode is active
     for url in list_name_nodes:
         # Create the HDFS client
-        hadoop = InsecureClient(url)
+        hadoop = InsecureClient(url + ':' + port_hdfs)
         try:
             # Test if the HDFS client is working
             hadoop.status('/')
-            return url
+            return url + ':' + port_hdfs
         except:
             # if an error occure, it means the NameNode used to connect to HDFS is not active
             if cpt == len(list_name_nodes):
@@ -36,7 +36,7 @@ def get_url_active_namenode(list_name_nodes):
                 cpt += 1
 
 
-def return_client_hdfs(user, list_name_nodes):
+def return_client_hdfs(user, list_name_nodes, port_hdfs):
     """
     Connect to HDFS with the active NameNode
 
@@ -44,7 +44,7 @@ def return_client_hdfs(user, list_name_nodes):
     :return: client HDFS with an active NameNode
     """
 
-    url = get_url_active_namenode(list_name_nodes)
+    url = get_url_active_namenode(list_name_nodes, port_hdfs)
     client_hdfs = InsecureClient(url, user=user)
     return client_hdfs
 
@@ -55,6 +55,7 @@ def return_ibis_client(user
                        , list_name_nodes
                        , port
                        , port_hdfs = 50070
+                       , auth_mechanism = 'PLAIN'
                        , ssl = 0):
     """
     Return an ibis client for Hive or Impala
@@ -68,25 +69,22 @@ def return_ibis_client(user
     """
 
     # Get The active NameNode
-    url_hdfs = get_url_active_namenode(list_name_nodes)
+    url_hdfs = get_url_active_namenode(list_name_nodes, port_hdfs)
 
     # Use the URL of the active NameNode to create an IBIS HDFS client
     ibis_hdfs = ibis.hdfs_connect(host=url_hdfs, port=int(port_hdfs))
 
-    # Create a list of available DataNodes
-    data_node_list = list_datanodes.split(';')
-
     # Loop through all Data Nodes to test if they are active or not
-    while len(data_node_list) > 0:
+    while len(list_datanodes) > 0:
         # Randomly select one the DataNode
-        data_node = data_node_list[random.randint(0, len(data_node_list) - 1)]
+        data_node = list_datanodes[random.randint(0, len(list_datanodes) - 1)]
         try:
             # Test if the DataNode is active
             ibis_client = ibis.impala.connect(host=data_node, port=int(port),
                                               hdfs_client=ibis_hdfs,
                                               user=user,
                                               password=user_password,
-                                              auth_mechanism='PLAIN',
+                                              auth_mechanism=auth_mechanism,
                                               use_ssl=bool(ssl == "1"),
                                               timeout=0.5)
             ibis_client.list_databases()
@@ -95,6 +93,6 @@ def return_ibis_client(user
         except:
             # If an error occure, it means the DataNode is not ative or does not exists
             # -> We need to remove that DataNode from our list to avoir infinite loop and testing a DataNode twice
-            data_node_list.remove(data_node)
+            list_datanodes.remove(data_node)
 
     raise NameError("No DataNode available for Impala")
