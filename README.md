@@ -1,7 +1,7 @@
 # pySaagie-connect
-Connector description:
-Connect to HDFS with the active NameNode
-Connect to Hive or Impala with a random active DataNode
+Connector description:  
+Connect to HDFS with the active NameNode  
+Connect to Hive or Impala with a random active DataNode  
 
 ## Installation
 ``` 
