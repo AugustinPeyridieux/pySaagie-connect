@@ -29,6 +29,6 @@ client_impala = sc.return_ibis_client('user_name'
                       , 'password'
                       , ['dn1', 'dn2', 'dn3', 'dn4']
                       , ['http://nn1', 'http://nn2']
-                      , 21050
+                      , 21050 # adapt the port for Hive or Imapala here
                       , 50070)
 ``` 
