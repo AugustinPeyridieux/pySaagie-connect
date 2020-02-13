@@ -1,5 +1,6 @@
 from hdfs import InsecureClient
 import ibis
+import random
 
 
 def get_url_active_namenode(list_name_nodes):
@@ -34,7 +35,8 @@ def get_url_active_namenode(list_name_nodes):
             else:
                 cpt += 1
 
-def return_client_hdfs(user):
+
+def return_client_hdfs(user, list_name_nodes):
     """
     Connect to HDFS with the active NameNode
 
@@ -42,29 +44,31 @@ def return_client_hdfs(user):
     :return: client HDFS with an active NameNode
     """
 
-    url = get_url_active_namenode()
+    url = get_url_active_namenode(list_name_nodes)
     client_hdfs = InsecureClient(url, user=user)
     return client_hdfs
 
-def get_client_ibis(user,
-                   user_password,
-                   list_datanodes,
-                   port,
-                   port_hdfs = 50070,
-                   ssl = 0):
+
+def return_ibis_client(user
+                       , user_password
+                       , list_datanodes
+                       , list_name_nodes
+                       , port
+                       , port_hdfs = 50070
+                       , ssl = 0):
     """
     Return an ibis client for Hive or Impala
     :param user: string of the username to connect to Impala
     :param user_password:  string password to connect to Impala
     :param list_datanodes: List containing the list of dataNode
-    :param port: port Impala to use (default 21050 for Impala and 10000 for Hive)
+    :param port: port Impala or Hive to use (default 21050 for Impala and 10000 for Hive)
     :param port_hdfs: port HDFS to use (default 50070)
     :param impala_ssl: set to 1 if you want to activate SSL on impala
     :return: ibis client with an active random datanode
     """
 
     # Get The active NameNode
-    url_hdfs = get_url_active_namenode()
+    url_hdfs = get_url_active_namenode(list_name_nodes)
 
     # Use the URL of the active NameNode to create an IBIS HDFS client
     ibis_hdfs = ibis.hdfs_connect(host=url_hdfs, port=int(port_hdfs))
