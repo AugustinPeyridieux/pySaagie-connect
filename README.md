@@ -1,9 +1,31 @@
 # pySaagie-connect
+Connector description:
+Connect to HDFS with the active NameNode
+Connect to Hive or Impala with a random active DataNode
 
-Project Goal : initialize and simplify connection to different elements of a datalake
+## Installation
+``` 
+pip install git+https://github.com/saagie/pySaagie-connect.git
+``` 
 
-For now :
+## Examples
+##### HDFS
+``` 
+from pySaagie_connect import pySaagie_connect as sc
 
-- HDFS
-- HIVE
-- IMPALA
+client_hdfs = sc.return_client_hdfs(user='auser_name'
+                                    , list_name_nodes=['http://nn1', 'http://nn2']
+                                    , port_hdfs=50070)
+``` 
+
+##### Impala or Hive (adapt the port)
+``` 
+from pySaagie_connect import pySaagie_connect as sc
+
+client_impala = sc.return_ibis_client('user_name'
+                      , 'password'
+                      , ['dn1', 'dn2', 'dn3', 'dn4']
+                      , ['http://nn1', 'http://nn2']
+                      , 21050
+                      , 50070)
+``` 
