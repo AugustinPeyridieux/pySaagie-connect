@@ -1,4 +1,7 @@
 # pySaagie-connect
+
+Tutorial: https://saagie.zendesk.com/hc/en-us/articles/360021263492-HDFS-Impala-with-high-availability
+
 Connector description:  
 Connect to HDFS with the active NameNode  
 Connect to Hive or Impala with a random active DataNode  
