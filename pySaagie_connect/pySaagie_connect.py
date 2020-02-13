@@ -21,11 +21,11 @@ def get_url_active_namenode(list_name_nodes, port_hdfs):
     # Loop to identify which one of the 2 NameNode is active
     for url in list_name_nodes:
         # Create the HDFS client
-        hadoop = InsecureClient(url + ':' + port_hdfs)
+        hadoop = InsecureClient(url + ':' + str(port_hdfs))
         try:
             # Test if the HDFS client is working
             hadoop.status('/')
-            return url + ':' + port_hdfs
+            return url + ':' + str(port_hdfs)
         except:
             # if an error occure, it means the NameNode used to connect to HDFS is not active
             if cpt == len(list_name_nodes):
